@@ -19,7 +19,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Pylint
-        run: ppylint --disable=R,C add.py --score=yes
+        run: pylint --disable=R,C add.py --score=yes
 
       - name: Fail workflow if Pylint score is less than 10
         run: |
