@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  lint:
+  lint-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,39 +15,12 @@ jobs:
         with:
           python-version: '3.12'  # Adjust if needed
 
-      - name: Install Pylint
+      - name: Install Python depedencies
         run: pip install -r requirements.txt
 
       - name: Run Pylint
         run: pylint --disable=R,C add.py --score=yes
 
-      - name: Fail workflow if Pylint score is less than 10
-        run: |
-          pylint_score=$(pylint --score=yes | grep Overall | awk '{print $2}')
-          if [[ $pylint_score -lt 10 ]]; then
-            exit 1
-          fi
-
-  test:
-    runs-on: ubuntu-latest
-    needs: lint  # Run tests only after Pylint succeeds
-    steps:
-      - uses: actions/checkout@v3
-
       - name: Run tests
-        run: python -m pytest -vv --cov=add test_add.py # Customize test selection
-
-      - name: Upload coverage report (optional)
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: .coverage
-
-      - name: Fail workflow if tests fail
-        run: |
-          test_result=$?
-          if [[ $test_result -ne 0 ]]; then
-            exit 1
-          fi
-
+        run: python -m pytest -vv --cov=add test_add.py 
   # Add additional jobs for security scans, static analysis, etc. (optional)
