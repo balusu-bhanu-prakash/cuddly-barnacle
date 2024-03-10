@@ -22,5 +22,5 @@ jobs:
         run: pylint --disable=R,C add.py --score=yes
 
       - name: Run tests
-        run: python -m pytest -vv --cov=add test_add.py 
+        run: python -m pytest -vv test_add.py 
   # Add additional jobs for security scans, static analysis, etc. (optional)
